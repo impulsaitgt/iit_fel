@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 import json, requests
 import base64
 import random
+import io
 from datetime import datetime
 
 from odoo.exceptions import ValidationError
@@ -462,12 +463,13 @@ class controllerfel:
 
         if self.env.company.fel_service == "S":
 
-            _logger.info('aqui va a ejecutar servicios')
-            xml_data = ET.tostring(data, encoding="utf-8", xml_declaration=True)
-            _logger.info('xml_data: ',xml_data)
+            # xml_data = ET.tostring(data, encoding="utf-8", xml_declaration=True)
+            buffer = io.BytesIO()
+            tree = ET.ElementTree(data)
+            tree.write(buffer, encoding="utf-8", xml_declaration=True)
+            xml_data = buffer.getvalue().decode("utf-8")
+            
             response = requests.post(url, data=xml_data, headers=headers)
-            _logger.info('response: ',response)
-            _logger.info('response.text', response.text)
 
             return json.loads(response.text)
         else:
