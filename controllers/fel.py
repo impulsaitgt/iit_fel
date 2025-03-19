@@ -250,6 +250,9 @@ class controllerfel:
                     descripcion_producto = detalleFactura.product_id.name
                     if self.env.company.fel_sep_codigo == 'S' and detalleFactura.product_id.default_code:
                         descripcion_producto = detalleFactura.product_id.default_code + '|' + descripcion_producto
+                    else:
+                        if self.env.company.fel_pri_codigo == 'S' and detalleFactura.product_id.default_code:
+                            descripcion_producto = detalleFactura.product_id.default_code + ' - ' +detalleFactura.product_id.name
                 else:
                     descripcion_producto = detalleFactura.product_id.name + ' ' + detalleFactura.product_id.default_code
 
@@ -462,13 +465,6 @@ class controllerfel:
         }
 
         if self.env.company.fel_service == "S":
-
-            # xml_data = ET.tostring(data, encoding="utf-8", xml_declaration=True)
-
-            # buffer = io.BytesIO()
-            # tree = ET.ElementTree(data)
-            # tree.write(buffer, encoding="utf-8", xml_declaration=True)
-            # xml_data = buffer.getvalue().decode("utf-8")
             xml_data = ET.tostring(data, encoding="utf-8")
             xml_data = b'<?xml version="1.0" encoding="utf-8"?>\n' + xml_data
 

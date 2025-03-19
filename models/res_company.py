@@ -10,6 +10,7 @@ class ResPartner(models.Model):
     fel_entorno = fields.Selection([ ('P','Produccion'),('D','Desarrollo/Pruebas')],string='Entorno',required=True, default='D')
     fel_codigo_imp = fields.Selection([ ('S','Si'),('N','No')],string='Imprime codigo al final',required=True, default='N')
     fel_sep_codigo = fields.Selection([ ('S','Si'),('N','No')],string='Separa codigo en factura',required=True, default='N')
+    fel_pri_codigo = fields.Selection([ ('S','Si'),('N','No')],string='Primero codigo en factura',required=True, default='N')
 
     fel_UsuarioFirma = fields.Char(string='Usuario Firma (Prefijo WS)')
     fel_LlaveFirma = fields.Char(string='Llave Firma (Token Signer)')
