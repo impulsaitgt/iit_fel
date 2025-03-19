@@ -464,11 +464,14 @@ class controllerfel:
         if self.env.company.fel_service == "S":
 
             # xml_data = ET.tostring(data, encoding="utf-8", xml_declaration=True)
-            buffer = io.BytesIO()
-            tree = ET.ElementTree(data)
-            tree.write(buffer, encoding="utf-8", xml_declaration=True)
-            xml_data = buffer.getvalue().decode("utf-8")
-            
+
+            # buffer = io.BytesIO()
+            # tree = ET.ElementTree(data)
+            # tree.write(buffer, encoding="utf-8", xml_declaration=True)
+            # xml_data = buffer.getvalue().decode("utf-8")
+            xml_data = ET.tostring(data, encoding="utf-8")
+            xml_data = b'<?xml version="1.0" encoding="utf-8"?>\n' + xml_data
+
             response = requests.post(url, data=xml_data, headers=headers)
 
             return json.loads(response.text)
@@ -535,7 +538,8 @@ class controllerfel:
 
         # response = requests.post(url, data=ET.tostring(data), headers=headers)
 
-        xml_data = ET.tostring(data, encoding="utf-8", xml_declaration=True)
+        xml_data = ET.tostring(data, encoding="utf-8")
+        xml_data = b'<?xml version="1.0" encoding="utf-8"?>\n' + xml_data
         response = requests.post(url, data=xml_data, headers=headers)
 
         return json.loads(response.text)
@@ -546,9 +550,9 @@ class controllerfel:
             fel_Xml = controllerfel.genxml(self,self.journal_id.fel_tipo_fel)
 
             if self.env.company.fel_entorno == "D":
-                ET.ElementTree(fel_Xml).write("/home/iitadmin/Documentos/Odoo/odoo-14.0/fel/pararevisar.xml",encoding="unicode")
+                ET.ElementTree(fel_Xml).write("/home/iitadmin/Documentos/Odoo/odoo-14.0/fel/pararevisar.xml",encoding="utf-8")
             else:
-                ET.ElementTree(fel_Xml).write("/opt/odoo/fel/pararevisar.xml",encoding="unicode")
+                ET.ElementTree(fel_Xml).write("/opt/odoo/fel/pararevisar.xml",encoding="utf-8")
 
             data = controllerfel.firmafel(self,fel_Xml)
 
